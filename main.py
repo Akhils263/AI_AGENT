@@ -7,28 +7,24 @@ from dotenv import load_dotenv
 load_dotenv()
 
 @tool
-def calculator(int a , int b):
-    print("Enter two numbers:")
-    a = int(input("Enter first number: "))
-    b = int(input("Enter second number: "))
-    print("Choose your operation:")
-    print("1. Add\n2. Subtract\n3. Multiply\n4. Divide")
-    choice = int(input("Enter your choice (1-4): "))
-    match choice:
-        case '1':
-            return a+b
-        case '2':
-            return a-b
-        case '3':
-            return a*b 
-        case '4':
-            return a/b
-        default:
-            print("Error")
+def calculator(a: int, b: int, operation: str) -> float:
+    if operation == "add":
+        return a + b
+    elif operation == "subtract":
+        return a - b
+    elif operation == "multiply":
+        return a * b
+    elif operation == "divide":
+        if b == 0:
+            return "Cannot divide by zero"
+        return a / b
+    else:
+        return "Invalid operation"
+
 
 def main():
     model = ChatOpenAI(temperature=0)
-    tools = []
+    tools = [calculator]
     agent_executor = create_tool_calling_executor(model, tools)
 
     print("Hello from project-1! I am your AI agent. Type 'quit' to exit or continue chatting.")
